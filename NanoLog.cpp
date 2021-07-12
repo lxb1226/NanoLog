@@ -37,12 +37,14 @@ namespace
 {
 
     /* Returns microseconds since epoch */
+	// 返回毫秒值
     uint64_t timestamp_now()
     {
     	return std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
     }
 
     /* I want [2016-10-13 00:01:23.528514] */
+	// 格式化毫秒值到指定的格式
     void format_timestamp(std::ostream & os, uint64_t timestamp)
     {
 	// The next 3 lines do not work on MSVC!
@@ -58,6 +60,7 @@ namespace
 	os << '[' << buffer << microseconds << ']';
     }
 
+	// 返回当前线程id
     std::thread::id this_thread_id()
     {
 	static thread_local const std::thread::id id = std::this_thread::get_id();

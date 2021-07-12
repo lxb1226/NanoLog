@@ -34,19 +34,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 
 namespace nanolog
 {
+	// 枚举类
+	/*
+	* 此种枚举为类型安全的。枚举类型不能隐式地转换为整数；也无法与整数数值做比较
+	* https://www.cnblogs.com/moodlxs/p/10174533.html
+	*/
     enum class LogLevel : uint8_t { INFO, WARN, CRIT };
     
     class NanoLogLine
     {
     public:
+	// 构造函数
 	NanoLogLine(LogLevel level, char const * file, char const * function, uint32_t line);
 	~NanoLogLine();
 
+	// 转移构造函数
 	NanoLogLine(NanoLogLine &&) = default;
+	// 移动赋值函数
 	NanoLogLine& operator=(NanoLogLine &&) = default;
 
 	void stringify(std::ostream & os);
 
+	// <<重载
 	NanoLogLine& operator<<(char arg);
 	NanoLogLine& operator<<(int32_t arg);
 	NanoLogLine& operator<<(uint32_t arg);
@@ -55,6 +64,7 @@ namespace nanolog
 	NanoLogLine& operator<<(double arg);
 	NanoLogLine& operator<<(std::string const & arg);
 
+	// 模板函数 重载<< 写入大小为N的字符数组
 	template < size_t N >
 	NanoLogLine& operator<<(const char (&arg)[N])
 	{
@@ -116,8 +126,10 @@ namespace nanolog
 	bool operator==(NanoLogLine &);
     };
 
+	// 设置log级别
     void set_log_level(LogLevel level);
     
+	// 
     bool is_logged(LogLevel level);
 
 
